@@ -53,7 +53,7 @@ if (!blog.IsSuccess)
 
 ## Project files explanations:
 
-### error.cs file
+### Error.cs file
 
 This file contains a `public record` named `Error` with the following properties:
 
@@ -65,7 +65,7 @@ This file contains a `public record` named `Error` with the following properties
 
 This record also contains a static field named `None` which represents an empty error.
 
-### result.cs file
+### Result.cs file
 
 This file contains a `public class` named `Result` with the following properties:
 
@@ -79,10 +79,14 @@ This class also contains several static methods for creating instances of this c
 - `Failure(Error error)`: Creates a new instance of this class with `IsSuccess` set to false and an instance of the `Error` class representing any errors that occurred during the operation.
 - `Failure<TValue>(Error error, TValue? value = default)`: Creates a new instance of this class with `IsSuccess` set to false, an instance of the `Error` class representing any errors that occurred during the operation, and a value of type `TValue`.
 
-### ResultT.cs file
+### ResultGeneric.cs file
 
 This file contains a generic version of the `Result` class named `Result<TValue>`. This class inherits from the non-generic version of the class.
 
 This class has an additional property named `Value`, which represents the result of a successful operation. If the operation was not successful, an exception is thrown.
 
 This class also contains an implicit conversion operator from type TValue to type Result<TValue>.
+
+#### P.S
+
+This project has been inspired based on [Domain Validation With .NET | Clean Architecture, DDD, .NET 6](https://youtu.be/KgfzM0QWHrQ)
