@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -11,7 +11,7 @@
     <PackageIcon>exception-result.jpg</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <PackageTags>domain-validation; validation; exception-handling</PackageTags>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>$(AssemblyName).NET</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

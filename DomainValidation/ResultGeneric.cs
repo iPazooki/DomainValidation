@@ -13,8 +13,8 @@ public class Result<TValue> : Result
     /// </summary>
     /// <param name="value">The value.</param>
     /// <param name="isSuccess">A value indicating whether the operation succeeded.</param>
-    /// <param name="error">The error that occurred, if any.</param>
-    protected internal Result(TValue? value, bool isSuccess, Error error) : base(isSuccess, error) => _value = value;
+    /// <param name="errors">The errors that occurred, if any.</param>
+    protected internal Result(TValue? value, bool isSuccess, params Error[] errors) : base(isSuccess, errors) => _value = value;
 
     /// <summary>
     /// Gets the value of the result.

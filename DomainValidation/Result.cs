@@ -9,22 +9,22 @@ public class Result
     /// Initializes a new instance of the <see cref="Result"/> class.
     /// </summary>
     /// <param name="isSuccess">A value indicating whether the operation succeeded.</param>
-    /// <param name="error">The error that occurred, if any.</param>
-    protected internal Result(bool isSuccess, Error error)
+    /// <param name="errors">The errors that occurred, if any.</param>
+    protected internal Result(bool isSuccess, params Error[] errors)
     {
-        if (isSuccess && error != Error.None)
+        if (isSuccess && errors.Any(e => e != Error.None))
         {
             throw new InvalidOperationException();
         }
 
-        if (!isSuccess && error == Error.None)
+        if (!isSuccess && errors.Any(e => e == Error.None))
         {
             throw new InvalidOperationException();
         }
 
         IsSuccess = isSuccess;
 
-        Error = error;
+        Errors = errors;
     }
 
     /// <summary>
@@ -33,9 +33,9 @@ public class Result
     public bool IsSuccess { get; init; }
 
     /// <summary>
-    /// Gets the error that occurred, if any.
+    /// Gets the errors that occurred, if any.
     /// </summary>
-    public Error Error { get; init; }
+    public IReadOnlyCollection<Error> Errors { get; init; }
 
     /// <summary>
     /// Creates a new instance of the <see cref="Result"/> class that indicates success.
@@ -54,16 +54,16 @@ public class Result
     /// <summary>
     /// Creates a new instance of the <see cref="Result"/> class that indicates failure.
     /// </summary>
-    /// <param name="error">The error that occurred.</param>
+    /// <param name="errors">The errors that occurred.</param>
     /// <returns>A new instance of the <see cref="Result"/> class that indicates failure.</returns>
-    public static Result Failure(Error error) => new(false, error);
+    public static Result Failure(params Error[] errors) => new(false, errors);
 
     /// <summary>
     /// Creates a new instance of the <see cref="Result{TValue}"/> class that indicates failure.
     /// </summary>
     /// <typeparam name="TValue">The type of the value.</typeparam>
-    /// <param name="error">The error that occurred.</param>
+    /// <param name="errors">The errors that occurred.</param>
     /// <param name="value">The value.</param>
     /// <returns>A new instance of the <see cref="Result{TValue}"/> class that indicates failure.</returns>
-    public static Result<TValue> Failure<TValue>(Error error, TValue? value = default) => new(value, false, error);
+    public static Result<TValue> Failure<TValue>(params Error[] errors) => new(default, false, errors);
 }

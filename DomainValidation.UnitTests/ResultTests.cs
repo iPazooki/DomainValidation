@@ -14,7 +14,7 @@ public class ResultTests
         // Assert
         Assert.True(result.IsSuccess);
 
-        Assert.Equal(Error.None, result.Error);
+        Assert.Equal(Error.None, result.Errors.Single());
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public class ResultTests
         // Assert
         Assert.True(result.IsSuccess);
 
-        Assert.Equal(Error.None, result.Error);
+        Assert.Equal(Error.None, result.Errors.Single());
 
         Assert.Equal(value, result.Value);
     }
@@ -38,7 +38,7 @@ public class ResultTests
     public void Failure_Should_Return_Failed_Result_With_Error()
     {
         // Arrange
-        var error = new Error("Error.Code","Something went wrong");
+        var error = new Error("Error.Code", "Something went wrong");
 
         // Act
         var result = Result.Failure(error);
@@ -46,29 +46,30 @@ public class ResultTests
         // Assert
         Assert.False(result.IsSuccess);
 
-        Assert.Equal(error, result.Error);
+        Assert.Equal(error, result.Errors.Single());
 
-        Assert.Equal(41, result.Error.LineNumber);
+        Assert.Equal(41, result.Errors.First().LineNumber);
 
-        Assert.Equal("Failure_Should_Return_Failed_Result_With_Error", result.Error.MemberName);
+        Assert.Equal("Failure_Should_Return_Failed_Result_With_Error", result.Errors.Single().MemberName);
     }
 
     [Fact]
-    public void Failure_TValue_Should_Return_Failed_Result_With_Error_And_ExceptionForValue()
+    public void Failure_Should_Return_Failed_Results_With_Error()
     {
         // Arrange
-        var error = new Error("Error.Code", "Something went wrong");
-
-        var value = 1;
+        var errors = new List<Error>(){
+            new Error("Error.Code.1", "Something went wrong 1") ,
+            new Error("Error.Code.2", "Something went wrong 2")
+        };
 
         // Act
-        var result = Result.Failure(error, value);
+        var result = Result.Failure(errors.ToArray());
 
         // Assert
         Assert.False(result.IsSuccess);
 
-        Assert.Equal(error, result.Error);
+        Assert.Equal(errors.Count, result.Errors.Count);
 
-        Assert.Throws<InvalidOperationException>(()=> result.Value);
+        Assert.Equal(errors, result.Errors);
     }
 }

@@ -16,7 +16,7 @@ public class ResultGenericTests
         // Assert
         Assert.True(result.IsSuccess);
 
-        Assert.Equal(Error.None, result.Error);
+        Assert.Equal(Error.None, result.Errors.Single());
 
         Assert.Equal(value, result.Value);
     }
@@ -30,9 +30,9 @@ public class ResultGenericTests
         var failedResult = Result.Failure<int>(error);
 
         // Act & assert
-        Assert.Equal(28, failedResult.Error.LineNumber);
+        Assert.Equal(28, failedResult.Errors.First().LineNumber);
 
-        Assert.Equal("Value_Should_Throw_Exception_If_Not_Successful", failedResult.Error.MemberName);
+        Assert.Equal("Value_Should_Throw_Exception_If_Not_Successful", failedResult.Errors.First().MemberName);
 
         Assert.Throws<InvalidOperationException>(() => failedResult.Value);
     }
