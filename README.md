@@ -27,7 +27,7 @@ public class Blog
 
         if (title.Length < 3)
         {
-            errors.Add(new Error("Error.Title", "The minimum title length is 3 character"));
+            errors.Add(new Error("Error.Title.MinLength", "The minimum title length is 3 character"));
         }
 
         if (title.Length > 40)
@@ -81,4 +81,5 @@ if (!blog.IsSuccess)
 
 #### P.S
 
-This project has been inspired based on [Domain Validation With .NET | Clean Architecture, DDD, .NET 6](https://youtu.be/KgfzM0QWHrQ)
+- You can use the NuGet package of this project from [here](https://www.nuget.org/packages/DomainValidation.NET).
+- This project has been inspired based on [Domain Validation With .NET | Clean Architecture, DDD, .NET 6](https://youtu.be/KgfzM0QWHrQ)
