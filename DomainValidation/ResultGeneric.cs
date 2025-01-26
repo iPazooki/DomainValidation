@@ -14,11 +14,13 @@ public class Result<TValue> : Result
     /// <param name="value">The value.</param>
     /// <param name="isSuccess">A value indicating whether the operation succeeded.</param>
     /// <param name="errors">The errors that occurred, if any.</param>
-    protected internal Result(TValue? value, bool isSuccess, params Error[] errors) : base(isSuccess, errors) => _value = value;
+    public Result(TValue? value, bool isSuccess, params Error[] errors) : base(isSuccess, errors) => _value = value;
 
     /// <summary>
     /// Gets the value of the result.
     /// </summary>
+    /// <exception cref="NullReferenceException">Thrown when the value is null and the operation succeeded.</exception>
+    /// <exception cref="InvalidOperationException">Thrown when the operation did not succeed.</exception>
     public TValue Value => IsSuccess ? _value ?? throw new NullReferenceException() : throw new InvalidOperationException();
 
     /// <summary>

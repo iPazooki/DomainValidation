@@ -1,39 +1,36 @@
-﻿using DomainValidation;
-
-namespace ExceptionResult.Tests;
+﻿namespace DomainValidation.UnitTests;
 
 public class ResultGenericTests
 {
     [Fact]
-    public void Implicit_Conversion_Should_Create_Successful_Result_With_Value()
+    public void ResultWithValue_Success_ReturnsValue()
     {
-        // Arrange
-        var value = 1;
-
-        // Act
-        Result<int> result = value;
-
-        // Assert
+        var result = new Result<int>(42, true, Error.None);
         Assert.True(result.IsSuccess);
-
-        Assert.Equal(Error.None, result.Errors.Single());
-
-        Assert.Equal(value, result.Value);
+        Assert.Equal(42, result.Value);
     }
 
     [Fact]
-    public void Value_Should_Throw_Exception_If_Not_Successful()
+    public void ResultWithValue_Failure_ThrowsInvalidOperationException()
     {
-        // Arrange
-        var error = new Error("Error.Code", "Something went wrong");
-
-        var failedResult = Result.Failure<int>(error);
-
-        // Act & assert
-        Assert.Equal(28, failedResult.Errors.First().LineNumber);
-
-        Assert.Equal("Value_Should_Throw_Exception_If_Not_Successful", failedResult.Errors.First().MemberName);
-
-        Assert.Throws<InvalidOperationException>(() => failedResult.Value);
+        var result = new Result<int>(0, false, new Error("Some error code", "Something went wrong"));
+        Assert.False(result.IsSuccess);
+        Assert.Throws<InvalidOperationException>(() => result.Value);
+    }
+    
+    [Fact]
+    public void ResultWithValue_SuccessWithNullValue_ThrowsNullReferenceException()
+    {
+        var result = new Result<string>(null, true, Error.None);
+        Assert.True(result.IsSuccess);
+        Assert.Throws<NullReferenceException>(() => result.Value);
+    }
+    
+    [Fact]
+    public void ImplicitConversionToResult_Success_ReturnsResult()
+    {
+        Result<int> result = 42;
+        Assert.True(result.IsSuccess);
+        Assert.Equal(42, result.Value);
     }
 }

@@ -1,32 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <Title>Domain Validation</Title>
-    <Authors>ipazooki</Authors>
-    <Description>This project is an approach to domain validation with a result object. </Description>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>exception-result.jpg</PackageIcon>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>domain-validation; validation; exception-handling</PackageTags>
-    <Version>1.1.0</Version>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageId>$(AssemblyName).NET</PackageId>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/iPazooki/DomainValidation</RepositoryUrl>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Title>Domain Validation</Title>
+        <Authors>ipazooki</Authors>
+        <Description>This project is an approach to domain validation with a result object.</Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>exception-result.jpg</PackageIcon>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>domain-validation; validation; exception-handling</PackageTags>
+        <Version>2.0.0</Version>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <PackageId>$(AssemblyName).NET</PackageId>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/iPazooki/DomainValidation</RepositoryUrl>
+        <AssemblyVersion>2.0.0</AssemblyVersion>
+        <FileVersion>2.0.0</FileVersion>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\exception-result.jpg">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="..\exception-result.jpg">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
 
 </Project>

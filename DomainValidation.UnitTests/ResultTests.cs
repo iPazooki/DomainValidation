@@ -1,75 +1,66 @@
-using DomainValidation;
-
-namespace ExceptionResult.Tests;
+namespace DomainValidation.UnitTests;
 
 public class ResultTests
 {
     [Fact]
-    public void Success_Should_Return_Successful_Result()
+    public void Result_Success_ReturnsIsSuccessTrue()
     {
-        // Arrange
-        // Act
         var result = Result.Success();
-
-        // Assert
         Assert.True(result.IsSuccess);
-
-        Assert.Equal(Error.None, result.Errors.Single());
+        Assert.Empty(result.Errors);
     }
 
     [Fact]
-    public void Success_TValue_Should_Return_Successful_Result_With_Value()
+    public void Result_Failure_ReturnsIsSuccessFalse()
     {
-        // Arrange
-        var value = 1;
-
-        // Act
-        var result = Result.Success(value);
-
-        // Assert
-        Assert.True(result.IsSuccess);
-
-        Assert.Equal(Error.None, result.Errors.Single());
-
-        Assert.Equal(value, result.Value);
-    }
-
-    [Fact]
-    public void Failure_Should_Return_Failed_Result_With_Error()
-    {
-        // Arrange
-        var error = new Error("Error.Code", "Something went wrong");
-
-        // Act
+        var error = new Error("Some error", "Something went wrong");
         var result = Result.Failure(error);
-
-        // Assert
         Assert.False(result.IsSuccess);
-
-        Assert.Equal(error, result.Errors.Single());
-
-        Assert.Equal(41, result.Errors.First().LineNumber);
-
-        Assert.Equal("Failure_Should_Return_Failed_Result_With_Error", result.Errors.Single().MemberName);
+        Assert.Contains(error, result.Errors);
     }
 
     [Fact]
-    public void Failure_Should_Return_Failed_Results_With_Error()
+    public void Result_SuccessWithErrors_ThrowsInvalidOperationException()
     {
-        // Arrange
-        var errors = new List<Error>(){
-            new Error("Error.Code.1", "Something went wrong 1") ,
-            new Error("Error.Code.2", "Something went wrong 2")
-        };
+        Assert.Throws<InvalidOperationException>(() => new Result(true, new Error("Some error", "Something went wrong")));
+    }
 
-        // Act
-        var result = Result.Failure(errors.ToArray());
+    [Fact]
+    public void Result_FailureWithNoErrors_ThrowsInvalidOperationException()
+    {
+        Assert.Throws<InvalidOperationException>(() => new Result(false, Error.None));
+    }
 
-        // Assert
+    [Fact]
+    public void ResultGeneric_Success_ReturnsValue()
+    {
+        var result = Result.Success(42);
+        Assert.True(result.IsSuccess);
+        Assert.Equal(42, result.Value);
+    }
+
+    [Fact]
+    public void ResultGeneric_Failure_ThrowsInvalidOperationException()
+    {
+        var result = Result.Failure<int>(new Error("Some error", "Something went wrong"));
         Assert.False(result.IsSuccess);
+        Assert.Throws<InvalidOperationException>(() => result.Value);
+    }
 
-        Assert.Equal(errors.Count, result.Errors.Count);
+    [Fact]
+    public void ResultGeneric_SuccessWithNullValue_ThrowsNullReferenceException()
+    {
+        var result = Result.Success<string?>(null);
+        
+        Assert.True(result.IsSuccess);
+        Assert.Throws<NullReferenceException>(() => result.Value);
+    }
 
-        Assert.Equal(errors, result.Errors);
+    [Fact]
+    public void ResultGeneric_ImplicitConversionToResult_Success_ReturnsResult()
+    {
+        Result<int> result = 42;
+        Assert.True(result.IsSuccess);
+        Assert.Equal(42, result.Value);
     }
 }

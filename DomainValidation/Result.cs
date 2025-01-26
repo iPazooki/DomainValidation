@@ -10,32 +10,36 @@ public class Result
     /// </summary>
     /// <param name="isSuccess">A value indicating whether the operation succeeded.</param>
     /// <param name="errors">The errors that occurred, if any.</param>
-    protected internal Result(bool isSuccess, params Error[] errors)
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when <paramref name="isSuccess"/> is true and any error is not <see cref="Error.None"/>,
+    /// or when <paramref name="isSuccess"/> is false and any error is <see cref="Error.None"/>.
+    /// </exception>
+    public Result(bool isSuccess, params Error[] errors)
     {
-        if (isSuccess && errors.Any(e => e != Error.None))
+        switch (isSuccess)
         {
-            throw new InvalidOperationException();
+            case true when errors.Any(e => e != Error.None):
+                throw new InvalidOperationException();
+            case false when errors.Any(e => e == Error.None):
+                throw new InvalidOperationException();
+            default:
+                IsSuccess = isSuccess;
+                Errors = errors.All(e => !string.IsNullOrEmpty(e.Code) && !string.IsNullOrEmpty(e.Message))
+                    ? errors
+                    : Enumerable.Empty<Error>();
+                break;
         }
-
-        if (!isSuccess && errors.Any(e => e == Error.None))
-        {
-            throw new InvalidOperationException();
-        }
-
-        IsSuccess = isSuccess;
-
-        Errors = errors;
     }
 
     /// <summary>
     /// Gets a value indicating whether the operation succeeded.
     /// </summary>
-    public bool IsSuccess { get; init; }
+    public bool IsSuccess { get; }
 
     /// <summary>
     /// Gets the errors that occurred, if any.
     /// </summary>
-    public IReadOnlyCollection<Error> Errors { get; init; }
+    public IEnumerable<Error> Errors { get; }
 
     /// <summary>
     /// Creates a new instance of the <see cref="Result"/> class that indicates success.
@@ -63,7 +67,6 @@ public class Result
     /// </summary>
     /// <typeparam name="TValue">The type of the value.</typeparam>
     /// <param name="errors">The errors that occurred.</param>
-    /// <param name="value">The value.</param>
     /// <returns>A new instance of the <see cref="Result{TValue}"/> class that indicates failure.</returns>
     public static Result<TValue> Failure<TValue>(params Error[] errors) => new(default, false, errors);
 }
