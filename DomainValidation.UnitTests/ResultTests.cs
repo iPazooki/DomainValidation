@@ -22,7 +22,8 @@ public class ResultTests
     [Fact]
     public void Result_SuccessWithErrors_ThrowsInvalidOperationException()
     {
-        Assert.Throws<InvalidOperationException>(() => new Result(true, new Error("Some error", "Something went wrong")));
+        Assert.Throws<InvalidOperationException>(
+            () => new Result(true, new Error("Some error", "Something went wrong")));
     }
 
     [Fact]
@@ -51,7 +52,7 @@ public class ResultTests
     public void ResultGeneric_SuccessWithNullValue_ThrowsNullReferenceException()
     {
         var result = Result.Success<string?>(null);
-        
+
         Assert.True(result.IsSuccess);
         Assert.Throws<NullReferenceException>(() => result.Value);
     }
@@ -62,5 +63,37 @@ public class ResultTests
         Result<int> result = 42;
         Assert.True(result.IsSuccess);
         Assert.Equal(42, result.Value);
+    }
+
+    [Fact]
+    public void Result_ConstructorWithMessage_Success_ReturnsIsSuccessTrue()
+    {
+        var result = new Result(true, "Operation successful");
+        Assert.True(result.IsSuccess);
+        Assert.Empty(result.Errors);
+    }
+
+    [Fact]
+    public void Result_ConstructorWithoutMessage_Success_ReturnsIsSuccessTrue()
+    {
+        var result = new Result(true);
+        Assert.True(result.IsSuccess);
+        Assert.Empty(result.Errors);
+    }
+
+    [Fact]
+    public void Result_ConstructorWithMessage_Failure_ReturnsIsSuccessFalse()
+    {
+        var result = new Result(false, "Operation failed");
+        Assert.False(result.IsSuccess);
+        Assert.Contains(result.Errors, e => e.Message == "Operation failed");
+    }
+
+    [Fact]
+    public void Result_ConstructorWithoutMessage_Failure_ReturnsIsSuccessFalse()
+    {
+        var result = new Result(false);
+        Assert.False(result.IsSuccess);
+        Assert.False(result.Errors.Any());
     }
 }

@@ -26,7 +26,27 @@ public class Result
                 IsSuccess = isSuccess;
                 Errors = errors.All(e => !string.IsNullOrEmpty(e.Code) && !string.IsNullOrEmpty(e.Message))
                     ? errors
-                    : Enumerable.Empty<Error>();
+                    : [];
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Result"/> class.
+    /// </summary>
+    /// <param name="isSuccess">A value indicating whether the operation succeeded.</param>
+    /// <param name="message">The message associated with the result.</param>
+    public Result(bool isSuccess, string? message)
+    {
+        switch (isSuccess)
+        {
+            case true:
+                IsSuccess = isSuccess;
+                Errors = [];
+                break;
+            case false:
+                IsSuccess = isSuccess;
+                Errors = !string.IsNullOrEmpty(message) ? [new Error(message)] : [];
                 break;
         }
     }
@@ -61,6 +81,8 @@ public class Result
     /// <param name="errors">The errors that occurred.</param>
     /// <returns>A new instance of the <see cref="Result"/> class that indicates failure.</returns>
     public static Result Failure(params Error[] errors) => new(false, errors);
+
+    public static Result Failure(string message) => new(false, message);
 
     /// <summary>
     /// Creates a new instance of the <see cref="Result{TValue}"/> class that indicates failure.

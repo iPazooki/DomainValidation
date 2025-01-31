@@ -4,7 +4,7 @@
 /// Represents the result of a domain validation that can either succeed or fail, with an optional value.
 /// </summary>
 /// <typeparam name="TValue">The type of the value.</typeparam>
-public class Result<TValue> : Result
+public sealed class Result<TValue> : Result
 {
     private readonly TValue? _value;
 
@@ -15,6 +15,21 @@ public class Result<TValue> : Result
     /// <param name="isSuccess">A value indicating whether the operation succeeded.</param>
     /// <param name="errors">The errors that occurred, if any.</param>
     public Result(TValue? value, bool isSuccess, params Error[] errors) : base(isSuccess, errors) => _value = value;
+    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Result{TValue}"/> class.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <param name="isSuccess">A value indicating whether the operation succeeded.</param>
+    public Result(TValue? value, bool isSuccess) : base(isSuccess, string.Empty) => _value = value;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Result{TValue}"/> class.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <param name="isSuccess">A value indicating whether the operation succeeded.</param>
+    /// <param name="message">The message associated with the result.</param>
+    public Result(TValue? value, bool isSuccess, string message) : base(isSuccess, message) => _value = value;
 
     /// <summary>
     /// Gets the value of the result.
