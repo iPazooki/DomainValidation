@@ -68,14 +68,6 @@ public class Result
     public static Result Success() => new(true, Error.None);
 
     /// <summary>
-    /// Creates a new instance of the <see cref="Result{TValue}"/> class that indicates success.
-    /// </summary>
-    /// <typeparam name="TValue">The type of the value.</typeparam>
-    /// <param name="value">The value.</param>
-    /// <returns>A new instance of the <see cref="Result{TValue}"/> class that indicates success.</returns>
-    public static Result<TValue> Success<TValue>(TValue value) => new(value, true, Error.None);
-
-    /// <summary>
     /// Creates a new instance of the <see cref="Result"/> class that indicates failure.
     /// </summary>
     /// <param name="errors">The errors that occurred.</param>
@@ -88,20 +80,4 @@ public class Result
     /// <param name="message">The message associated with the failure.</param>
     /// <returns>A new instance of the <see cref="Result"/> class that indicates failure.</returns>
     public static Result Failure(string message) => new(false, message);
-
-    /// <summary>
-    /// Creates a new instance of the <see cref="Result{TValue}"/> class that indicates failure.
-    /// </summary>
-    /// <typeparam name="TValue">The type of the value.</typeparam>
-    /// <param name="errors">The errors that occurred.</param>
-    /// <returns>A new instance of the <see cref="Result{TValue}"/> class that indicates failure.</returns>
-    public static Result<TValue> Failure<TValue>(params Error[] errors) => new(default, false, errors);
-    
-    /// <summary>
-    /// Creates a new instance of the <see cref="Result{TValue}"/> class that indicates failure.
-    /// </summary>
-    /// <typeparam name="TValue">The type of the value.</typeparam>
-    /// <param name="message">The message associated with the failure.</param>
-    /// <returns>A new instance of the <see cref="Result{TValue}"/> class that indicates failure.</returns>
-    public static Result<TValue> Failure<TValue>(string message) => new(default, false, message);
 }

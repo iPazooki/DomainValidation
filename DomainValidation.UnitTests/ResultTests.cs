@@ -33,39 +33,6 @@ public class ResultTests
     }
 
     [Fact]
-    public void ResultGeneric_Success_ReturnsValue()
-    {
-        var result = Result.Success(42);
-        Assert.True(result.IsSuccess);
-        Assert.Equal(42, result.Value);
-    }
-
-    [Fact]
-    public void ResultGeneric_Failure_ThrowsInvalidOperationException()
-    {
-        var result = Result.Failure<int>(new Error("Some error", "Something went wrong"));
-        Assert.False(result.IsSuccess);
-        Assert.Throws<InvalidOperationException>(() => result.Value);
-    }
-
-    [Fact]
-    public void ResultGeneric_SuccessWithNullValue_ThrowsNullReferenceException()
-    {
-        var result = Result.Success<string?>(null);
-
-        Assert.True(result.IsSuccess);
-        Assert.Throws<NullReferenceException>(() => result.Value);
-    }
-
-    [Fact]
-    public void ResultGeneric_ImplicitConversionToResult_Success_ReturnsResult()
-    {
-        Result<int> result = 42;
-        Assert.True(result.IsSuccess);
-        Assert.Equal(42, result.Value);
-    }
-
-    [Fact]
     public void Result_ConstructorWithMessage_Success_ReturnsIsSuccessTrue()
     {
         var result = new Result(true, "Operation successful");

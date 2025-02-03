@@ -17,7 +17,7 @@ public class ResultGenericTests
         Assert.False(result.IsSuccess);
         Assert.Throws<InvalidOperationException>(() => result.Value);
     }
-    
+
     [Fact]
     public void ResultWithValue_SuccessWithNullValue_ThrowsNullReferenceException()
     {
@@ -25,15 +25,16 @@ public class ResultGenericTests
         Assert.True(result.IsSuccess);
         Assert.Throws<NullReferenceException>(() => result.Value);
     }
-    
+
     [Fact]
     public void ImplicitConversionToResult_Success_ReturnsResult()
     {
         Result<int> result = 42;
         Assert.True(result.IsSuccess);
         Assert.Equal(42, result.Value);
+        Assert.Equal(42, (int)result);
     }
-    
+
     [Fact]
     public void ResultWithValueAndMessage_Success_ReturnsValue()
     {
@@ -42,7 +43,7 @@ public class ResultGenericTests
         Assert.Equal(42, result.Value);
         Assert.Empty(result.Errors);
     }
-
+    
     [Fact]
     public void ResultWithValueAndMessage_Failure_ReturnsErrors()
     {
@@ -67,12 +68,12 @@ public class ResultGenericTests
         Assert.False(result.IsSuccess);
         Assert.False(result.Errors.Any());
     }
-    
+
     [Fact]
-    public void ResultWithErrorMessage_Failure_ReturnsErrors()
+    public void ImplicitConversionToIntResult_ReturnsResult()
     {
-        var result = Result.Failure<int>("Operation failed");
-        Assert.False(result.IsSuccess);
-        Assert.Contains(result.Errors, e => e.Message == "Operation failed");
+        var result = Result<int>.Success(1);
+        Assert.True(result.IsSuccess);
+        Assert.Equal(1, (int)result);
     }
 }
