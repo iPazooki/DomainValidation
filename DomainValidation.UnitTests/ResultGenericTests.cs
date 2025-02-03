@@ -67,4 +67,12 @@ public class ResultGenericTests
         Assert.False(result.IsSuccess);
         Assert.False(result.Errors.Any());
     }
+    
+    [Fact]
+    public void ResultWithErrorMessage_Failure_ReturnsErrors()
+    {
+        var result = Result.Failure<int>("Operation failed");
+        Assert.False(result.IsSuccess);
+        Assert.Contains(result.Errors, e => e.Message == "Operation failed");
+    }
 }
