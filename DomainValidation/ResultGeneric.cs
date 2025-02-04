@@ -9,11 +9,9 @@ public sealed class Result<TValue> : Result
     private readonly TValue? _value;
     
     /// <summary>
-    /// Gets the value of the result.
+    /// Gets the value of the result if the operation succeeded; otherwise, returns the default value for the type.
     /// </summary>
-    /// <exception cref="NullReferenceException">Thrown when the value is null and the operation succeeded.</exception>
-    /// <exception cref="InvalidOperationException">Thrown when the operation did not succeed.</exception>
-    public TValue Value => IsSuccess ? _value ?? throw new NullReferenceException() : throw new InvalidOperationException();
+    public TValue? Value => IsSuccess ? _value : default;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Result{TValue}"/> class.
@@ -47,6 +45,13 @@ public sealed class Result<TValue> : Result
     public static Result<TValue> Success(TValue value) => new(value, true, Error.None);
     
     /// <summary>
+    /// Creates a new instance of the <see cref="Result{TValue}"/> class that indicates failure.
+    /// </summary>
+    /// <param name="message">The error message associated with the failure.</param>
+    /// <returns>A new instance of the <see cref="Result{TValue}"/> class that indicates failure.</returns>
+    public new static Result<TValue> Failure(string message) => new(default, false, message);
+
+    /// <summary>
     /// Implicitly converts a value to a successful result.
     /// </summary>
     /// <param name="value">The value.</param>
@@ -57,7 +62,5 @@ public sealed class Result<TValue> : Result
     /// </summary>
     /// <param name="result">The result to convert.</param>
     /// <returns>The value of the result.</returns>
-    /// <exception cref="NullReferenceException">Thrown when the value is null and the operation succeeded.</exception>
-    /// <exception cref="InvalidOperationException">Thrown when the operation did not succeed.</exception>
-    public static implicit operator TValue(Result<TValue> result) => result.Value;
+    public static implicit operator TValue?(Result<TValue> result) => result.Value;
 }

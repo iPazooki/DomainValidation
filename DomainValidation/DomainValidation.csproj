@@ -11,13 +11,13 @@
         <PackageIcon>exception-result.jpg</PackageIcon>
         <RepositoryType>git</RepositoryType>
         <PackageTags>domain-validation; validation; exception-handling</PackageTags>
-        <Version>2.3.0</Version>
+        <Version>2.4.0</Version>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <PackageId>$(AssemblyName).NET</PackageId>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/iPazooki/DomainValidation</RepositoryUrl>
-        <AssemblyVersion>2.3.0</AssemblyVersion>
-        <FileVersion>2.3.0</FileVersion>
+        <AssemblyVersion>2.4.0</AssemblyVersion>
+        <FileVersion>2.4.0</FileVersion>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 

@@ -8,22 +8,7 @@ public class ResultGenericTests
         var result = new Result<int>(42, true, Error.None);
         Assert.True(result.IsSuccess);
         Assert.Equal(42, result.Value);
-    }
-
-    [Fact]
-    public void ResultWithValue_Failure_ThrowsInvalidOperationException()
-    {
-        var result = new Result<int>(0, false, new Error("Some error code", "Something went wrong"));
-        Assert.False(result.IsSuccess);
-        Assert.Throws<InvalidOperationException>(() => result.Value);
-    }
-
-    [Fact]
-    public void ResultWithValue_SuccessWithNullValue_ThrowsNullReferenceException()
-    {
-        var result = new Result<string>(null, true, Error.None);
-        Assert.True(result.IsSuccess);
-        Assert.Throws<NullReferenceException>(() => result.Value);
+        Assert.Empty(result.Errors);
     }
 
     [Fact]
@@ -33,6 +18,7 @@ public class ResultGenericTests
         Assert.True(result.IsSuccess);
         Assert.Equal(42, result.Value);
         Assert.Equal(42, (int)result);
+        Assert.Empty(result.Errors);
     }
 
     [Fact]
@@ -43,7 +29,7 @@ public class ResultGenericTests
         Assert.Equal(42, result.Value);
         Assert.Empty(result.Errors);
     }
-    
+
     [Fact]
     public void ResultWithValueAndMessage_Failure_ReturnsErrors()
     {
@@ -66,7 +52,7 @@ public class ResultGenericTests
     {
         var result = new Result<int>(0, false);
         Assert.False(result.IsSuccess);
-        Assert.False(result.Errors.Any());
+        Assert.Single(result.Errors);
     }
 
     [Fact]
@@ -75,5 +61,14 @@ public class ResultGenericTests
         var result = Result<int>.Success(1);
         Assert.True(result.IsSuccess);
         Assert.Equal(1, (int)result);
+    }
+
+    [Fact]
+    public void ResultWithErrorMessage_Failure_ReturnsIsSuccessFalse()
+    {
+        var result = Result<int>.Failure("Operation failed");
+        Assert.False(result.IsSuccess);
+        Assert.Equal(0, result.Value);
+        Assert.Contains(result.Errors, e => e.Message == "Operation failed");
     }
 }

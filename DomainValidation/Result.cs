@@ -6,14 +6,10 @@
 public class Result
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="Result"/> class.
+    /// Represents the result of a domain validation that can either succeed or fail.
     /// </summary>
     /// <param name="isSuccess">A value indicating whether the operation succeeded.</param>
     /// <param name="errors">The errors that occurred, if any.</param>
-    /// <exception cref="InvalidOperationException">
-    /// Thrown when <paramref name="isSuccess"/> is true and any error is not <see cref="Error.None"/>,
-    /// or when <paramref name="isSuccess"/> is false and any error is <see cref="Error.None"/>.
-    /// </exception>
     public Result(bool isSuccess, params Error[] errors)
     {
         switch (isSuccess)
@@ -24,9 +20,7 @@ public class Result
                 throw new InvalidOperationException();
             default:
                 IsSuccess = isSuccess;
-                Errors = errors.All(e => !string.IsNullOrEmpty(e.Code) && !string.IsNullOrEmpty(e.Message))
-                    ? errors
-                    : [];
+                Errors = isSuccess ? [] : (errors.Length != 0 ? errors : [Error.Default]);
                 break;
         }
     }
@@ -46,7 +40,9 @@ public class Result
                 break;
             case false:
                 IsSuccess = isSuccess;
-                Errors = !string.IsNullOrEmpty(message) ? [new Error(message)] : [];
+                Errors = !string.IsNullOrEmpty(message)
+                    ? [new Error(message)]
+                    : [Error.Default];
                 break;
         }
     }
@@ -73,7 +69,7 @@ public class Result
     /// <param name="errors">The errors that occurred.</param>
     /// <returns>A new instance of the <see cref="Result"/> class that indicates failure.</returns>
     public static Result Failure(params Error[] errors) => new(false, errors);
-    
+
     /// <summary>
     /// Creates a new instance of the <see cref="Result"/> class that indicates failure.
     /// </summary>

@@ -21,4 +21,9 @@ public record Error(
     /// Represents an instance of the <see cref="Error"/> class that indicates no error occurred.
     /// </summary>
     public static readonly Error None = new(string.Empty);
+    
+    /// <summary>
+    /// Represents an instance of the <see cref="Error"/> class that indicates a default error occurred.
+    /// </summary>
+    public static readonly Error Default = new("An unknown error occurred.");
 }
