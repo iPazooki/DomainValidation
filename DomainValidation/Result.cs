@@ -6,24 +6,24 @@
 public class Result
 {
     // Parameterless constructor for serialization
-    public Result() { Errors = [Error.None]; }
+    public Result() { }
     
     /// <summary>
     /// Represents the result of a domain validation that can either succeed or fail.
     /// </summary>
     /// <param name="isSuccess">A value indicating whether the operation succeeded.</param>
     /// <param name="errors">The errors that occurred, if any.</param>
-    public Result(bool isSuccess, params Error[] errors)
+    public Result(bool isSuccess, params Error[]? errors)
     {
         switch (isSuccess)
         {
-            case true when errors.Any(e => e != Error.None):
+            case true when errors is not null && errors.Any(e => e != Error.None):
                 throw new InvalidOperationException();
-            case false when errors.Any(e => e == Error.None):
+            case false when errors is not null && errors.Any(e => e == Error.None):
                 throw new InvalidOperationException();
             default:
                 IsSuccess = isSuccess;
-                Errors = isSuccess ? [] : (errors.Length != 0 ? errors : [Error.Default]);
+                Errors = isSuccess ? [] : (errors is not null && errors.Length != 0 ? errors : [Error.Default]);
                 break;
         }
     }
@@ -53,12 +53,12 @@ public class Result
     /// <summary>
     /// Gets a value indicating whether the operation succeeded.
     /// </summary>
-    public bool IsSuccess { get; }
+    public bool IsSuccess { get; init; }
 
     /// <summary>
     /// Gets the errors that occurred, if any.
     /// </summary>
-    public IEnumerable<Error> Errors { get; }
+    public IEnumerable<Error>? Errors { get; init; }
 
     /// <summary>
     /// Creates a new instance of the <see cref="Result"/> class that indicates success.
@@ -71,7 +71,7 @@ public class Result
     /// </summary>
     /// <param name="errors">The errors that occurred.</param>
     /// <returns>A new instance of the <see cref="Result"/> class that indicates failure.</returns>
-    public static Result Failure(params Error[] errors) => new(false, errors);
+    public static Result Failure(params Error[]? errors) => new(false, errors);
 
     /// <summary>
     /// Creates a new instance of the <see cref="Result"/> class that indicates failure.

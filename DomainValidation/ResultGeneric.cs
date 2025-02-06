@@ -7,17 +7,12 @@
 public sealed class Result<TValue> : Result
 {
     // Parameterless constructor for serialization
-    public Result() : base() { }
+    public Result() { }
     
     /// <summary>
-    /// The value of the result if the operation succeeded; otherwise, the default value for the type.
+    /// Gets the value associated with the result.
     /// </summary>
-    private readonly TValue? _value;
-    
-    /// <summary>
-    /// Gets the value of the result if the operation succeeded; otherwise, returns the default value for the type.
-    /// </summary>
-    public TValue? Value => IsSuccess ? _value : default;
+    public TValue? Value { get; init; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Result{TValue}"/> class.
@@ -25,14 +20,14 @@ public sealed class Result<TValue> : Result
     /// <param name="value">The value.</param>
     /// <param name="isSuccess">A value indicating whether the operation succeeded.</param>
     /// <param name="errors">The errors that occurred, if any.</param>
-    public Result(TValue? value, bool isSuccess, params Error[] errors) : base(isSuccess, errors) => _value = value;
+    public Result(TValue? value, bool isSuccess, params Error[]? errors) : base(isSuccess, errors) => Value = value;
     
     /// <summary>
     /// Initializes a new instance of the <see cref="Result{TValue}"/> class.
     /// </summary>
     /// <param name="value">The value.</param>
     /// <param name="isSuccess">A value indicating whether the operation succeeded.</param>
-    public Result(TValue? value, bool isSuccess) : base(isSuccess, string.Empty) => _value = value;
+    public Result(TValue? value, bool isSuccess) : base(isSuccess, string.Empty) => Value = value;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Result{TValue}"/> class.
@@ -40,7 +35,7 @@ public sealed class Result<TValue> : Result
     /// <param name="value">The value.</param>
     /// <param name="isSuccess">A value indicating whether the operation succeeded.</param>
     /// <param name="message">The message associated with the result.</param>
-    public Result(TValue? value, bool isSuccess, string message) : base(isSuccess, message) => _value = value;
+    public Result(TValue? value, bool isSuccess, string message) : base(isSuccess, message) => Value = value;
 
     /// <summary>
     /// Creates a new instance of the <see cref="Result{TValue}"/> class that indicates success.

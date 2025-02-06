@@ -7,6 +7,7 @@ public class ResultTests
     {
         var result = Result.Success();
         Assert.True(result.IsSuccess);
+        Assert.NotNull(result.Errors);
         Assert.Empty(result.Errors);
     }
 
@@ -16,6 +17,7 @@ public class ResultTests
         var error = new Error("Something went wrong", "ErrorCode");
         var result = Result.Failure(error);
         Assert.False(result.IsSuccess);
+        Assert.NotNull(result.Errors);
         Assert.Contains(error, result.Errors);
     }
 
@@ -37,7 +39,7 @@ public class ResultTests
     {
         var result = new Result(true, "Operation successful");
         Assert.True(result.IsSuccess);
-        Assert.Empty(result.Errors);
+        Assert.Null(result.Errors);
     }
     
     [Fact]
@@ -45,7 +47,7 @@ public class ResultTests
     {
         var result = new Result(true, Error.None);
         Assert.True(result.IsSuccess);
-        Assert.Empty(result.Errors);
+        Assert.Null(result.Errors);
     }
 
     [Fact]
@@ -53,7 +55,7 @@ public class ResultTests
     {
         var result = new Result(true);
         Assert.True(result.IsSuccess);
-        Assert.Empty(result.Errors);
+        Assert.Null(result.Errors);
     }
 
     [Fact]
@@ -61,6 +63,7 @@ public class ResultTests
     {
         var result = new Result(false, "Operation failed");
         Assert.False(result.IsSuccess);
+        Assert.NotNull(result.Errors);
         Assert.Contains(result.Errors, e => e.Message == "Operation failed");
     }
     
@@ -69,6 +72,7 @@ public class ResultTests
     {
         var result = new Result(false, new Error("Operation failed"));
         Assert.False(result.IsSuccess);
+        Assert.NotNull(result.Errors);
         Assert.Single(result.Errors);
         Assert.Contains(result.Errors, e => e.Message == "Operation failed");
     }
@@ -78,6 +82,7 @@ public class ResultTests
     {
         var result = new Result(false);
         Assert.False(result.IsSuccess);
+        Assert.NotNull(result.Errors);
         Assert.Single(result.Errors);
         Assert.Equal(result.Errors.First(), Error.Default);
     }
@@ -87,6 +92,7 @@ public class ResultTests
     {
         var result = Result.Failure("Operation failed");
         Assert.False(result.IsSuccess);
+        Assert.NotNull(result.Errors);
         Assert.Contains(result.Errors, e => e.Message == "Operation failed");
     }
 }
