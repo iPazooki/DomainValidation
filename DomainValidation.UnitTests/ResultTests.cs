@@ -39,7 +39,8 @@ public class ResultTests
     {
         var result = new Result(true, "Operation successful");
         Assert.True(result.IsSuccess);
-        Assert.Null(result.Errors);
+        Assert.NotNull(result.Errors);
+        Assert.Empty(result.Errors);
     }
     
     [Fact]
@@ -47,7 +48,8 @@ public class ResultTests
     {
         var result = new Result(true, Error.None);
         Assert.True(result.IsSuccess);
-        Assert.Null(result.Errors);
+        Assert.NotNull(result.Errors);
+        Assert.Empty(result.Errors);
     }
 
     [Fact]
@@ -55,7 +57,8 @@ public class ResultTests
     {
         var result = new Result(true);
         Assert.True(result.IsSuccess);
-        Assert.Null(result.Errors);
+        Assert.NotNull(result.Errors);
+        Assert.Empty(result.Errors);
     }
 
     [Fact]
