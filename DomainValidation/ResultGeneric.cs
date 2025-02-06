@@ -6,6 +6,12 @@
 /// <typeparam name="TValue">The type of the value.</typeparam>
 public sealed class Result<TValue> : Result
 {
+    // Parameterless constructor for serialization
+    public Result() : base() { }
+    
+    /// <summary>
+    /// The value of the result if the operation succeeded; otherwise, the default value for the type.
+    /// </summary>
     private readonly TValue? _value;
     
     /// <summary>

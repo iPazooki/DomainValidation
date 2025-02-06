@@ -5,6 +5,9 @@
 /// </summary>
 public class Result
 {
+    // Parameterless constructor for serialization
+    public Result() { Errors = [Error.None]; }
+    
     /// <summary>
     /// Represents the result of a domain validation that can either succeed or fail.
     /// </summary>
