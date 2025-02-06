@@ -43,7 +43,7 @@ public sealed class Result<TValue> : Result
     /// <typeparam name="TValue">The type of the value.</typeparam>
     /// <param name="value">The value.</param>
     /// <returns>A new instance of the <see cref="Result{TValue}"/> class that indicates success.</returns>
-    public static Result<TValue> Success(TValue value) => new(value, true, Error.None);
+    public static Result<TValue> Success(TValue value) => new(value, true);
     
     /// <summary>
     /// Creates a new instance of the <see cref="Result{TValue}"/> class that indicates failure.
@@ -56,7 +56,7 @@ public sealed class Result<TValue> : Result
     /// Implicitly converts a value to a successful result.
     /// </summary>
     /// <param name="value">The value.</param>
-    public static implicit operator Result<TValue>(TValue? value) => new(value, true, Error.None);
+    public static implicit operator Result<TValue>(TValue? value) => new(value, true);
     
     /// <summary>
     /// Implicitly converts a <see cref="Result{TValue}"/> to its value.

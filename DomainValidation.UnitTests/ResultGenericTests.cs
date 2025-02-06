@@ -7,10 +7,9 @@ public class ResultGenericTests
     [Fact]
     public void ResultWithValue_Success_NoError_ReturnsValue()
     {
-        var result = new Result<int>(42, true, Error.None);
+        var result = new Result<int>(42, true);
         Assert.True(result.IsSuccess);
         Assert.Equal(42, result.Value);
-        Assert.NotNull(result.Errors);
         Assert.Empty(result.Errors);
     }
 
@@ -21,7 +20,6 @@ public class ResultGenericTests
         Assert.True(result.IsSuccess);
         Assert.Equal(42, result.Value);
         Assert.Equal(42, (int)result);
-        Assert.NotNull(result.Errors);
         Assert.Empty(result.Errors);
     }
 
@@ -31,7 +29,6 @@ public class ResultGenericTests
         var result = new Result<int>(42, true, "Operation successful");
         Assert.True(result.IsSuccess);
         Assert.Equal(42, result.Value);
-        Assert.NotNull(result.Errors);
         Assert.Empty(result.Errors);
     }
 
@@ -50,7 +47,6 @@ public class ResultGenericTests
         var result = new Result<int>(42, true);
         Assert.True(result.IsSuccess);
         Assert.Equal(42, result.Value);
-        Assert.NotNull(result.Errors);
         Assert.Empty(result.Errors);
     }
 
@@ -59,7 +55,6 @@ public class ResultGenericTests
     {
         var result = new Result<int>(0, false);
         Assert.False(result.IsSuccess);
-        Assert.NotNull(result.Errors);
         Assert.Single(result.Errors);
     }
 
@@ -84,7 +79,7 @@ public class ResultGenericTests
     [Fact]
     public void SerializeResult_Success_ReturnsJson()
     {
-        var result = new Result<int>(42, true, Error.None);
+        var result = new Result<int>(42, true);
         var json = JsonSerializer.Serialize(result);
         Assert.Contains("\"IsSuccess\":true", json);
         Assert.Contains("\"Value\":42", json);
@@ -109,7 +104,7 @@ public class ResultGenericTests
         Assert.NotNull(result);
         Assert.True(result.IsSuccess);
         Assert.Equal(42, result.Value);
-        Assert.Null(result.Errors);
+        Assert.Empty(result.Errors);
     }
     
     [Fact]

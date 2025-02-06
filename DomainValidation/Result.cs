@@ -6,7 +6,7 @@
 public class Result
 {
     // Parameterless constructor for serialization
-    public Result() { }
+    public Result() { Errors = Array.Empty<Error>(); }
     
     /// <summary>
     /// Represents the result of a domain validation that can either succeed or fail.
@@ -17,9 +17,7 @@ public class Result
     {
         switch (isSuccess)
         {
-            case true when errors is not null && errors.Any(e => e != Error.None):
-                throw new InvalidOperationException();
-            case false when errors is not null && errors.Any(e => e == Error.None):
+            case true when errors is not null && errors.Any():
                 throw new InvalidOperationException();
             default:
                 IsSuccess = isSuccess;
@@ -58,13 +56,13 @@ public class Result
     /// <summary>
     /// Gets the errors that occurred, if any.
     /// </summary>
-    public IEnumerable<Error>? Errors { get; init; }
+    public IEnumerable<Error> Errors { get; init; }
 
     /// <summary>
     /// Creates a new instance of the <see cref="Result"/> class that indicates success.
     /// </summary>
     /// <returns>A new instance of the <see cref="Result"/> class that indicates success.</returns>
-    public static Result Success() => new(true, Error.None);
+    public static Result Success() => new(true);
 
     /// <summary>
     /// Creates a new instance of the <see cref="Result"/> class that indicates failure.

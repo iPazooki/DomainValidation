@@ -29,12 +29,6 @@ public class ResultTests
     }
 
     [Fact]
-    public void Result_FailureWithNoErrors_ThrowsInvalidOperationException()
-    {
-        Assert.Throws<InvalidOperationException>(() => new Result(false, Error.None));
-    }
-
-    [Fact]
     public void Result_ConstructorWithMessage_Success_ReturnsIsSuccessTrue()
     {
         var result = new Result(true, "Operation successful");
@@ -46,9 +40,8 @@ public class ResultTests
     [Fact]
     public void Result_ConstructorErrorNone_Success_ReturnsIsSuccessTrue()
     {
-        var result = new Result(true, Error.None);
+        var result = new Result(true);
         Assert.True(result.IsSuccess);
-        Assert.NotNull(result.Errors);
         Assert.Empty(result.Errors);
     }
 
@@ -57,7 +50,6 @@ public class ResultTests
     {
         var result = new Result(true);
         Assert.True(result.IsSuccess);
-        Assert.NotNull(result.Errors);
         Assert.Empty(result.Errors);
     }
 
