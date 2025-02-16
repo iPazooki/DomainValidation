@@ -5,7 +5,7 @@ public class ResultTests
     [Fact]
     public void Result_Success_ReturnsIsSuccessTrue()
     {
-        var result = Result.Success();
+        Result result = Result.Success();
         Assert.True(result.IsSuccess);
         Assert.NotNull(result.Errors);
         Assert.Empty(result.Errors);
@@ -14,8 +14,8 @@ public class ResultTests
     [Fact]
     public void Result_Failure_ReturnsIsSuccessFalse()
     {
-        var error = new Error("Something went wrong", "ErrorCode");
-        var result = Result.Failure(error);
+        Error error = new Error("Something went wrong", "ErrorCode");
+        Result result = Result.Failure(error);
         Assert.False(result.IsSuccess);
         Assert.NotNull(result.Errors);
         Assert.Contains(error, result.Errors);
@@ -31,7 +31,7 @@ public class ResultTests
     [Fact]
     public void Result_ConstructorWithMessage_Success_ReturnsIsSuccessTrue()
     {
-        var result = new Result(true, "Operation successful");
+        Result result = new Result(true, "Operation successful");
         Assert.True(result.IsSuccess);
         Assert.NotNull(result.Errors);
         Assert.Empty(result.Errors);
@@ -40,7 +40,7 @@ public class ResultTests
     [Fact]
     public void Result_ConstructorErrorNone_Success_ReturnsIsSuccessTrue()
     {
-        var result = new Result(true);
+        Result result = new Result(true);
         Assert.True(result.IsSuccess);
         Assert.Empty(result.Errors);
     }
@@ -48,7 +48,7 @@ public class ResultTests
     [Fact]
     public void Result_ConstructorWithoutMessage_Success_ReturnsIsSuccessTrue()
     {
-        var result = new Result(true);
+        Result result = new Result(true);
         Assert.True(result.IsSuccess);
         Assert.Empty(result.Errors);
     }
@@ -56,7 +56,7 @@ public class ResultTests
     [Fact]
     public void Result_ConstructorWithMessage_Failure_ReturnsIsSuccessFalse()
     {
-        var result = new Result(false, "Operation failed");
+        Result result = new Result(false, "Operation failed");
         Assert.False(result.IsSuccess);
         Assert.NotNull(result.Errors);
         Assert.Contains(result.Errors, e => e.Message == "Operation failed");
@@ -65,7 +65,7 @@ public class ResultTests
     [Fact]
     public void Result_ConstructorWithError_Failure_ReturnsIsSuccessFalse()
     {
-        var result = new Result(false, new Error("Operation failed"));
+        Result result = new Result(false, new Error("Operation failed"));
         Assert.False(result.IsSuccess);
         Assert.NotNull(result.Errors);
         Assert.Single(result.Errors);
@@ -75,7 +75,7 @@ public class ResultTests
     [Fact]
     public void Result_ConstructorWithoutMessage_Failure_ReturnsIsSuccessFalse()
     {
-        var result = new Result(false);
+        Result result = new Result(false);
         Assert.False(result.IsSuccess);
         Assert.NotNull(result.Errors);
         Assert.Single(result.Errors);
@@ -85,7 +85,7 @@ public class ResultTests
     [Fact]
     public void ResultWithErrorMessage_Failure_ReturnsIsSuccessFalse()
     {
-        var result = Result.Failure("Operation failed");
+        Result result = Result.Failure("Operation failed");
         Assert.False(result.IsSuccess);
         Assert.NotNull(result.Errors);
         Assert.Contains(result.Errors, e => e.Message == "Operation failed");

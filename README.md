@@ -27,22 +27,22 @@ public class Blog
 
         if (string.IsNullOrEmpty(title))
         {
-            return Result.Failure<Blog>(new Error("Error.Title.Empty", "Title is mandatory"));
+            return Result<Blog>.Failure("Title is mandatory");
         }
 
         if (title.Length < 3)
         {
-            errors.Add(new Error("Error.Title.MinLength", "The minimum title length is 3 character"));
+            errors.Add(new Error("The minimum title length is 3 character"));
         }
 
         if (title.Length > 40)
         {
-            errors.Add(new Error("Error.Title.MaxLength", "The maximum title length is 40 character"));
+            errors.Add(new Error("The maximum title length is 40 character"));
         }
 
         if (errors.Any())
         {
-            return Result.Failure<Blog>(errors.ToArray());
+            return Result<Blog>.Failure(errors.ToArray());
         }
 
         return new Blog(title);

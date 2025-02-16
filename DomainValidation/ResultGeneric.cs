@@ -51,6 +51,13 @@ public sealed class Result<TValue> : Result
     /// <param name="message">The error message associated with the failure.</param>
     /// <returns>A new instance of the <see cref="Result{TValue}"/> class that indicates failure.</returns>
     public new static Result<TValue> Failure(string message) => new(default, false, message);
+    
+    /// <summary>
+    /// Creates a new instance of the <see cref="Result{TValue}"/> class that indicates failure.
+    /// </summary>
+    /// <param name="errors">The errors that occurred.</param>
+    /// <returns>A new instance of the <see cref="Result{TValue}"/> class that indicates failure.</returns>
+    public new static Result<TValue> Failure(params Error[]? errors) => new(default, false, errors);
 
     /// <summary>
     /// Implicitly converts a value to a successful result.
