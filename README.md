@@ -3,21 +3,22 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/ipazooki/DomainValidation)
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/ipazooki/DomainValidation/dotnet.yml)
 
-# Domain validation with returning result object
+# Domain validation with a result object
 
-This project is an approach to domain validation with a result object. The `Result` class is used to handle errors and results in your application in a consistent and reliable way. If there is no validation issue and if the model is valid, then `result.Value` will return the value which is valid model and the `result.IsSuccess` is true. However, if something is wrong with domain validation, then `result.IsSuccess` is false and `result.Error` will hold error code and description. 
+This library provides a simple, consistent approach to domain validation using a `Result` object. The `Result` class encapsulates both the outcome of an operation and any associated validation errors.
 
-### Example:
+- When validation passes and the model is valid, `result.IsSuccess` is `true` and `result.Value` contains the valid model.
+- When validation fails, `result.IsSuccess` is `false` and `result.Errors` contains one or more `Error` instances describing what went wrong.
 
-Here we have a `Blog` class with a domain validation logic:
+## Example
+
+Consider a `Blog` class with basic domain validation logic:
 
 ```csharp
-
 public class Blog
 {
     private Blog(string title)
     {
-
         Title = title;
     }
 
@@ -32,12 +33,12 @@ public class Blog
 
         if (title.Length < 3)
         {
-            errors.Add(new Error("The minimum title length is 3 character"));
+            errors.Add(new Error("The minimum title length is 3 characters"));
         }
 
         if (title.Length > 40)
         {
-            errors.Add(new Error("The maximum title length is 40 character"));
+            errors.Add(new Error("The maximum title length is 40 characters"));
         }
 
         if (errors.Any())
@@ -50,12 +51,12 @@ public class Blog
 
     public string Title { get; init; }
 }
-
 ```
 
-If we create an instance of `Blog` class with a valid title, then returned resule is successful with a new instance of `Blog`, but if it's not valid, then we will receive proper error message with detailed information about error.
+Creating an instance of `Blog` with a valid title returns a successful `Result<Blog>` containing the new instance. If the title is invalid, the result indicates failure and contains the corresponding error details.
 
 ```csharp
+Result<Blog> blog = Blog.Create("My awesome blog");
 
 if (blog.IsSuccess)
 {
@@ -81,15 +82,15 @@ if (!blog.IsSuccess)
         Console.WriteLine(error);
     }
 }
-
 ```
 
-### Contribution
-👍 You are encouraged to contribute to this project by forking it or giving it a star if you find it valuable :)
+## Contribution
 
-### Social Media
+You are very welcome to contribute by opening issues, submitting pull requests, or simply giving the project a ⭐ on GitHub if you find it useful.
 
-[![Email](https://img.shields.io/badge/Email-gray?logo=gmail&style=flat-square)](mailto:ipazooki@gmail.com)
+## Social media
+
+[![Email](https://img.shields.io/badge/Email-gray?logo=gmail&style=flat-square)](mailto:ipazooki@live.com)
 [![Stack Overflow](https://img.shields.io/badge/Stackoverflow-gray?logo=stackoverflow&style=flat-square)](https://stackoverflow.com/users/1424065/mrp)
 [![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/pazooki)](https://www.linkedin.com/in/pazooki/)
 ![Twitter Follow](https://img.shields.io/twitter/follow/ipazooki)
